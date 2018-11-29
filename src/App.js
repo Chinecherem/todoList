@@ -1,28 +1,43 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from "react";
+import List from "./List";
+import Form from "./Form";
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
+  state = {
+    todos: [
+      "Wake Up from the bed",
+      "Brush my teeth",
+      "Have my Bath",
+      "Eat some food"
+    ]
+  };
+
+  updateTodoList = item => {
+    let todoList = [...this.state.todos];
+    todoList.push(item);
+
+    this.setState({
+      todos: todoList
+    });
+  };
+
+  deleteFromTodos = index => {
+    let updatedTodos = this.state.todos.filter((item, i) => {
+      return i !== index;
+    });
+
+    this.setState({
+      todos: updatedTodos
+    });
+  };
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <List todoList={this.state.todos} deleteTodo={this.deleteFromTodos} />
+        <Form update={this.updateTodoList} />
       </div>
     );
   }
 }
-
 export default App;
